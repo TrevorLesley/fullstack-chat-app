@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import Cookies from 'js-cookie';
 
 
 class ChatSubmit extends Component {
@@ -9,42 +8,29 @@ class ChatSubmit extends Component {
             text: '',
         }
 
-        this.inputMessage = this.inputMessage.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleInput(event) {
         this.setState({[event.target.name]: event.target.value});
       }
 
-    inputMessage(event) {
-        const message = {
-          text: this.state.text,
-        };
-    
-        const options = {
-          method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': Cookies.get('csrftoken'),
-          },
-            
-          body: JSON.stringify(message),
-        }
-    
-        fetch('/api/v1/chat/', options)
-          .then(response => response.json())
-          .then(data => {
-            const message = [...this.state.message];
-            message.push(data);
-            this.setState({ message });
-          });
+      handleSubmit(event) {
+          event.preventDefault();
+          const message = {
+              text: this.state.text,
+          };
+          this.props.inputMessage(message);
+
+          this.setState({ text: '' });
     }
+    
     
     render() {
 
         return (
-        <form onSubmit={this.inputMessage}>
+        <form onSubmit={this.handleSubmit}>
           <input  className="text" type="text" name="text" value={this.state.text} onChange={this.handleInput}/>
           <button className="button" type="submit">Send</button>
         </form>

@@ -27,24 +27,24 @@ class Registration extends Component {
 
         return (
         <form onSubmit={this.handleSubmit}>
-            <div class="mb-3">
-            <label htmlFor="username" id="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name='username'>
+            <div className="mb-3">
+            <label htmlFor="username" name="username" id="username" className="form-label">Username</label>
+            <input type="text" className="form-control" id="username" name='username' onChange={this.handleInput}>
             </input>
         </div>
-        <div class="mb-3">
-        <label htmlFor="email" class="form-label">Email address</label>
-        <input type="text" class="form-control" name='email' id="email" onChange={this.handleInput}>
+        <div className="mb-3">
+        <label htmlFor="email" name="email" className="form-label">Email address</label>
+        <input type="text" className="form-control" name='email' id="email" onChange={this.handleInput}>
         </input>
         </div>
         <div class="mb-3">
-            <label htmlFor="password1" class="form-label">Password</label>
-            <input type="password" class="form-control" name='password1' id="password1" onChange={this.handleInput}>
+            <label htmlFor="password1" name='password1' className="form-label">Password</label>
+            <input type="password" className="form-control" name='password1' id="password1" onChange={this.handleInput}>
             </input>
             </div>
-            <div class="mb-3">
-            <label htmlFor="password2" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" name='password2' id="password2" onChange={this.handleInput}>
+            <div className="mb-3">
+            <label htmlFor="password2" name='password2' className="form-label">Confirm Password</label>
+            <input type="password" className="form-control" name='password2' id="password2" onChange={this.handleInput}>
             </input>
         </div>
             <button type="button" className="btn btn-link" onClick={() => this.props.handleForm('login')}>Already have an account? Login!</button>
