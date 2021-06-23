@@ -26,23 +26,23 @@ class Login extends Component {
 
         return (
         <form onSubmit={this.handleSubmit}>
-            <div class="mb-3">
-            <label htmlFor="username" id="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name='username' onChange={this.handleInput}>
+            <div className="mb-3">
+            <label htmlFor="username" id="username" className="form-label">Username</label>
+            <input type="text" className="form-control" id="username" name='username' onChange={this.handleInput}>
             </input>
         </div>
-        <div class="mb-3">
-        <label htmlFor="email" class="form-label">Email address</label>
-        <input type="text" class="form-control" name='email' id="email" onChange={this.handleInput}>
+        <div className="mb-3">
+        <label htmlFor="email" className="form-label">Email address</label>
+        <input type="text" className="form-control" name='email' id="email" onChange={this.handleInput}>
         </input>
         </div>
-        <div class="mb-3">
-            <label htmlFor="password1" class="form-label">Password</label>
-            <input type="password" class="form-control" name='password' id="password1" onChange={this.handleInput}>
+        <div className="mb-3">
+            <label htmlFor="password1" className="form-label">Password</label>
+            <input type="current-password" className="form-control" name='password' id="password1" onChange={this.handleInput}>
             </input>
             </div>   
                 <button type="button" className="btn btn-link" onClick={() => this.props.handleForm('signup')}>Don't have an account? Sign up!</button>
-                <button type="button" class="btn btn-primary" onClick={() => this.props.handleForm('chat')}>Login</button>
+                <button type="submit" className="btn btn-primary">Login</button>
 
         </form>
         )}

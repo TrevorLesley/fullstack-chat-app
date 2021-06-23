@@ -25,7 +25,7 @@ class ChatWindow extends Component {
         return(
           <>
           <div className="chat-log">
-            <h1>Online Chat Log</h1>
+            <h1>Chat App</h1>
                 <ul>{message}</ul>
                 <section className="main">
                     <ChatSubmit/>

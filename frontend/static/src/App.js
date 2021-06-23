@@ -1,9 +1,10 @@
 import React from 'react';
 import Cookies from 'js-cookie';
-import './App.css';
 import ChatWindow from './chatwindow';
 import Registration from './register';
 import Login from './login';
+import './App.css';
+
 
 
 class App extends React.Component {
@@ -74,7 +75,6 @@ class App extends React.Component {
     return(
       <>
         <div className='background'>
-          <h1>Chat App</h1>
           {this.state.selection === 'login' && <Login handleLogin={this.handleLogin} handleForm={this.handleForm}/>}
           {this.state.selection === 'signup' && <Registration handleRegister={this.handleRegister} handleForm={this.handleForm}/>}
           {this.state.selection === 'chat' && <ChatWindow/>}
