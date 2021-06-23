@@ -18,6 +18,7 @@ class App extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleForm = this.handleForm.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleInput(event) {
@@ -42,6 +43,25 @@ class App extends React.Component {
       Cookies.set('Authorization', `Token ${data.key}`);
       this.setState({ selection: 'chat' });
     }
+
+  }
+
+  async handleLogout() {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
+    };
+
+    const handleError = (err) => console.warn(err);
+    const response = await fetch('/rest-auth/logout/', options).catch(handleError);
+    if(response.ok) {
+      Cookies.remove('Authorization');
+      this.setState({selection: 'login'});
+    }
+
 
   }
 
@@ -77,7 +97,7 @@ class App extends React.Component {
         <div className='background'>
           {this.state.selection === 'login' && <Login handleLogin={this.handleLogin} handleForm={this.handleForm}/>}
           {this.state.selection === 'signup' && <Registration handleRegister={this.handleRegister} handleForm={this.handleForm}/>}
-          {this.state.selection === 'chat' && <ChatWindow/>}
+          {this.state.selection === 'chat' && <ChatWindow handleLogout={this.handleLogout}/>}
         </div>
       </>
     )

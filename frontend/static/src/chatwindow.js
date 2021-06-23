@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import ChatSubmit from './chatsubmit';
+import Cookies from 'js-cookie';
 
 class ChatWindow extends Component {
     constructor(props) {
@@ -8,6 +9,8 @@ class ChatWindow extends Component {
             message: [],
         }
     }
+      
+    
 
     componentDidMount() {
         fetch('/api/v1/chat/')
@@ -29,7 +32,8 @@ class ChatWindow extends Component {
                 <ul>{message}</ul>
                 <section className="main">
                     <ChatSubmit/>
-                </section>
+                    </section>
+                    <button type='button' onClick={this.props.handleLogout}>Log Out</button>
             </div>
           </>
         )
