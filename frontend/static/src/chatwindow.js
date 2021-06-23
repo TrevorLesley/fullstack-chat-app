@@ -7,6 +7,8 @@ class ChatWindow extends Component {
         super(props);
         this.state = {
             message: [],
+            isEditing: null,
+            edit: '',
         }
         this.inputMessage = this.inputMessage.bind(this);
     }
@@ -33,6 +35,34 @@ class ChatWindow extends Component {
             .then(data => this.setState({ message: [...this.state.message, data] }));
     }
 
+    removeMessage(id) {
+        const options = {
+            method: 'DELETE',
+        }
+
+        fetch(`api/v1/chat/${id}/`, options)
+          .then(response => {
+        const message = [...this.state.message];
+        const index = message.findIndex(message => message.id === id);
+        message.splice(index, 1);
+        this.setState({ message });
+      })
+    }
+
+    editmessage(id) {
+        const options = {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': Cookies.get('csrftoken'),
+          },
+          body: JSON.stringify(message),
+        }
+    
+        fetch(`/api/v1/chat/${id}/`, options)
+          .then(response => response.json())
+      }
+
     componentDidMount() {
         fetch('/api/v1/chat/')
         .then(response => response.json())
@@ -42,7 +72,9 @@ class ChatWindow extends Component {
     render() {
         const message = this.state.message.map((message) => (
           <li key={message.id}>
-            <p>{message.text}</p>
+                <p>{message.text}</p>
+                {this.state.isEditing === message.id ? <button type="button" onClick={() => this.handleEdit(message.id)}>SAVE</button> : <button type="button" onClick={() => this.setState({ isEditing: message.id})}>EDIT</button>}
+                <button type='button' onClick={() => this.deleteMessage(message.id)}>Delete</button>
           </li>
         ))
     
