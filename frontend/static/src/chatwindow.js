@@ -48,14 +48,15 @@ class ChatWindow extends Component {
     
         return(
           <>
-          <div className="chat-log">
+          <div className="chat-log container">
             <h1>Chat App</h1>
                 <ul>{message}</ul>
                 <section className="main">
                         <ChatSubmit inputMessage={this.inputMessage}/>
                     </section>
-                    <button type='button' onClick={this.props.handleLogout}>Log Out</button>
-            </div>
+                </div>
+                
+                <button type='button' onClick={this.props.handleLogout}>Log Out</button>
           </>
         )
       }
