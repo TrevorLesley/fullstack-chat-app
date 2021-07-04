@@ -1,43 +1,41 @@
 import { Component } from 'react';
 import ChatSubmit from './chatsubmit';
 import Cookies from 'js-cookie';
+import MessageDetail from './messagedetail'
 
 class ChatWindow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: [],
-            isEditing: null,
-            edit: '',
+            messages: [],
         }
-        this.inputMessage = this.inputMessage.bind(this);
-    }
-      
-    inputMessage(message) {
-        const options = {
-          method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': Cookies.get('csrftoken'),
-          },
-            
-          body: JSON.stringify(message),
-        }
-    
-        fetch('/api/v1/chat/', options)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not okay');
-                }
-
-                return response.json();
-            })
-            .then(data => this.setState({ message: [...this.state.message, data] }));
+      this.inputMessage = this.inputMessage.bind(this);
+      this.deleteMessage = this.deleteMessage.bind(this);
+      this.fetchData = this.fetchData.bind(this);
     }
 
-    removeMessage(id) {
+    componentWillUnmount() {
+      clearInterval(this.retrieveMessages)
+    }
+  
+  fetchData() {
+    fetch('/api/v1/chatlog/')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => this.setState({ messages: data }));
+    }
+
+    deleteMessage(id) {
         const options = {
-            method: 'DELETE',
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': Cookies.get('csrftoken'),
+          }
         }
 
         fetch(`api/v1/chat/${id}/`, options)
@@ -49,20 +47,6 @@ class ChatWindow extends Component {
       })
     }
 
-    editmessage(id) {
-        const options = {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken'),
-          },
-          body: JSON.stringify(message),
-        }
-    
-        fetch(`/api/v1/chat/${id}/`, options)
-          .then(response => response.json())
-      }
-
     componentDidMount() {
         fetch('/api/v1/chat/')
         .then(response => response.json())
@@ -71,11 +55,8 @@ class ChatWindow extends Component {
 
     render() {
         const message = this.state.message.map((message) => (
-          <li key={message.id}>
-                <p>{message.text}</p>
-                {this.state.isEditing === message.id ? <button type="button" onClick={() => this.handleEdit(message.id)}>SAVE</button> : <button type="button" onClick={() => this.setState({ isEditing: message.id})}>EDIT</button>}
-                <button type='button' onClick={() => this.deleteMessage(message.id)}>Delete</button>
-          </li>
+            <MessageDetail deleteMessage={this.props.deleteMessage} />
+          
         ))
     
         return(
@@ -84,7 +65,7 @@ class ChatWindow extends Component {
             <h1>Chat App</h1>
                 <ul>{message}</ul>
                 <section className="main">
-                        <ChatSubmit inputMessage={this.inputMessage}/>
+                        <ChatSubmit key={message.id} message={this.message} />
                     </section>
                 </div>
                 

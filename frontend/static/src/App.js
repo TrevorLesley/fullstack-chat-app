@@ -26,25 +26,23 @@ class App extends React.Component {
   }
 
   async handleLogin(user) {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken'),
-      },
-      body: JSON.stringify(user),
-    };
-
-    const handleError = (err) => console.warn(err);
-    const response = await fetch('/rest-auth/login/', options);
-    const data = await response.json().catch(handleError);
-
-    if (data.key) {
-      Cookies.set('Authorization', `Token ${data.key}`);
-      this.setState({ selection: 'chat' });
-    }
-
-  }
+    this.setState({ user: user.username});
+   const options = {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+       'X-CSRFToken': Cookies.get('csrftoken'),
+     },
+     body: JSON.stringify(user),
+   };
+   const handleError = (err) => console.warn(err);
+   const response = await fetch('/rest-auth/login/', options);
+   const data = await response.json().catch(handleError);
+   if (data.key) {
+     Cookies.set('Authorization', `Token ${data.key}`);
+     this.setState({selection: 'chat'});
+   }
+ }
 
   async handleLogout() {
     const options = {
